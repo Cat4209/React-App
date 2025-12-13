@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-export default function Login({setUser}) {
+export default function Login({user, setUser}) {
     const navigate = useNavigate()
     const [error, setError] = useState('')
 
@@ -33,7 +33,15 @@ export default function Login({setUser}) {
     }
 
     return(
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <>
+      {user ? (
+        <div className="flex justify-center items-center min-h-[100px] mt-8">
+          <h1 className="text-black-600 font-semibold text-3xl tracking-wide select-none">
+            You are already logged in!
+          </h1>
+        </div>
+      ):(
+      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
             Login to your account
@@ -91,5 +99,7 @@ export default function Login({setUser}) {
           </form>
         </div>
     </div>
+      )}
+    </>
     );
 }

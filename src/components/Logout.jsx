@@ -3,7 +3,10 @@ import { useNavigate } from "react-router";
 
 export default function Logout({user, setUser}) {
     const navigate = useNavigate()
-
+    if(!user){
+        navigate('/')
+    }
+    
     useEffect(()=>{
         fetch('http://localhost:3030/users/logout', {
             method: "GET",

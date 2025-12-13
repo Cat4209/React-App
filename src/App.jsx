@@ -20,7 +20,7 @@ function App() {
         <Route path='/' element={<Home />}/>
         <Route path='/movies' element={<Movies />}/>
         <Route path='/movies/:_id' element={<MovieDetails />}/>
-        <Route path='/login' element={<Login setUser={setUser}/>}/>
+        <Route path='/login' element={<Login user={user} setUser={setUser}/>}/>
         <Route path='/logout' element={<Logout user={user} setUser={setUser}/>}/>
         <Route path='*' element={<NotFound />}/>
       </Routes>
