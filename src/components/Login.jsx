@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-export default function Login() {
+export default function Login(setUser) {
     const navigate = useNavigate()
     const [error, setError] = useState('')
 
-    const setPersistedToken = (data) => {
-        localStorage.setItem('accessToken', JSON.stringify(data.accessToken))
-    }
 
     const userSubmit = (formData) =>{
         const userEmail = formData.get("email")
@@ -23,10 +20,11 @@ export default function Login() {
             if (!response.ok) {
                 const error = await response.json();
                 setError(error.message)
+                throw new Error(err.message);
             }
             return response.json();
         }).then(async data => {
-            await setPersistedToken(data)
+            setUser(data.accessToken)
             navigate('/')
         })
         .catch(err => {
