@@ -8,6 +8,7 @@ import MovieDetails from './components/MovieDetails'
 import Home from './components/Home'
 import Login from './components/Login'
 import useLocalStorage from './hooks/useLocalStorage'
+import Logout from './components/Logout'
 
 function App() {
   const [user, setUser] = useLocalStorage('accessToken', null)
@@ -20,6 +21,7 @@ function App() {
         <Route path='/movies' element={<Movies />}/>
         <Route path='/movies/:_id' element={<MovieDetails />}/>
         <Route path='/login' element={<Login setUser={setUser}/>}/>
+        <Route path='/logout' element={<Logout user={user} setUser={setUser}/>}/>
         <Route path='*' element={<NotFound />}/>
       </Routes>
     <Footer />
