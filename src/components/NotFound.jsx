@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 
 export default function NotFound() {
     return(
@@ -16,12 +16,12 @@ export default function NotFound() {
             Sorry, the page you are looking for does not exist or has been removed.
         </p>
 
-        <Link
+        <NavLink
             to="/"
             className="inline-block px-6 py-3 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-700 transition-colors"
         >
             Return to home
-        </Link>
+        </NavLink>
         </div>
     </div>
     );
