@@ -10,6 +10,7 @@ export default function Header({user, setUser}) {
 
             <nav className="flex space-x-6">
                 <NavLink to="/" className={ ({isActive}) => isActive? "underline text-gray-600 hover:text-gray-900" : "text-gray-600 hover:text-gray-900"}>Home</NavLink>
+                <NavLink to="/aboutus" className={ ({isActive}) => isActive? "underline text-gray-600 hover:text-gray-900" : "text-gray-600 hover:text-gray-900"}>About us</NavLink>
                 <NavLink to="/movies" className={ ({isActive}) => isActive? "underline text-gray-600 hover:text-gray-900" : "text-gray-600 hover:text-gray-900"}>Movies</NavLink>
                 {user ? (
                 <NavLink to="/create" className={ ({isActive}) => isActive? "underline text-gray-600 hover:text-gray-900" : "text-gray-600 hover:text-gray-900"}>

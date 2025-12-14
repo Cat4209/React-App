@@ -13,6 +13,7 @@ import Register from './components/Register'
 import PrivateGuard from './components/PrivateGaurd'
 import CreateMovie from './components/CreateMovie'
 import EditMovie from './components/EditMovie'
+import AboutUs from './components/AboutUs'
 
 function App() {
   const [user, setUser] = useLocalStorage('user', null)
@@ -26,6 +27,7 @@ function App() {
         <Route path='/movies/:_id' element={<MovieDetails user={user} />}/>
         <Route path='/register' element={<Register user={user} setUser={setUser} />}/>
         <Route path='/login' element={<Login user={user} setUser={setUser}/>}/>
+        <Route path='/aboutus' element={<AboutUs />}/>
         <Route element={<PrivateGuard user={user} />}>
             <Route path='/create' element={<CreateMovie user={user}/>}/>
             <Route path='/:_id/edit' element={<EditMovie user={user}/>}/>
