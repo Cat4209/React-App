@@ -30,8 +30,11 @@ export default function Register({user, setUser}) {
             }
             return response.json();
         }).then(async data => {
-            console.log(data)
-            setUser(data.accessToken)
+            setUser({
+              email: data.email,
+              accessToken: data.accessToken,
+              _id: data._id
+            })
             navigate('/')
         })
         .catch(err => {

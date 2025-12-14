@@ -12,7 +12,7 @@ export default function Logout({user, setUser}) {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "X-Authorization": user,
+                "X-Authorization": user[2],
             },})
         .then(response => {
             console.log(response.status)
