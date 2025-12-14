@@ -32,7 +32,7 @@ export default function MovieDetails({user}) {
                 }
             }).then(response => response.json())
             .then(data => {
-                alert('Was deleted successfuly')
+                alert(`Movie ${movie.title} was deleted successfuly`)
                 navigate('/movies')
             }).catch(err => {
                 alert(err.message)
@@ -70,15 +70,25 @@ export default function MovieDetails({user}) {
               {new Date(movie._createdOn).toLocaleDateString()}
             </span>
             { isAdmin && (
+            <div className="flex mt-4">
+                <NavLink to={`/${movie._id}/edit`}
+                className="px-4 py-2 mr-5 bg-yellow-600 text-white text-center font-semibold rounded-md
+                        hover:bg-yellow-700 transition duration-200
+                        focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+            >
+                Edit
+            </NavLink>
               <form action={deleteMovie}>
                 <button
-                  className="px-4 py-2 mt-4 bg-red-600 text-white text-center font-semibold rounded-md
+                  className="px-4 py-2 bg-red-600 text-white text-center font-semibold rounded-md
                             hover:bg-red-700 transition duration-200
                             focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                 >
                   Delete
                 </button>
               </form>
+              
+              </div>
             ) }
               
           </div>

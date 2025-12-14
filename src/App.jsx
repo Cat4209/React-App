@@ -12,6 +12,7 @@ import Logout from './components/Logout'
 import Register from './components/Register'
 import PrivateGuard from './components/PrivateGaurd'
 import CreateMovie from './components/CreateMovie'
+import EditMovie from './components/EditMovie'
 
 function App() {
   const [user, setUser] = useLocalStorage('user', null)
@@ -27,6 +28,7 @@ function App() {
         <Route path='/login' element={<Login user={user} setUser={setUser}/>}/>
         <Route element={<PrivateGuard user={user} />}>
             <Route path='/create' element={<CreateMovie user={user}/>}/>
+            <Route path='/:_id/edit' element={<EditMovie user={user}/>}/>
             <Route path='/logout' element={<Logout user={user} setUser={setUser}/>}/>
         </Route>
         <Route path='*' element={<NotFound />}/>
