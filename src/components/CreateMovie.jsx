@@ -1,10 +1,12 @@
 import { use, useState } from "react";
+import { useNavigate } from "react-router";
 import {v4 as uuidv4 } from 'uuid'
 
 export default function CreateMovie({user}) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
+    const navigate = useNavigate()
 
     const movieSubmit = (formData) => {
         const id = uuidv4();
@@ -26,7 +28,7 @@ export default function CreateMovie({user}) {
             })
         }).then(response => response.json() )
         .then(res => {
-            console.log(res);
+            navigate(`/movies/${res._id}`)
         })
         .catch(err => {
             alert(err.message);
