@@ -22,7 +22,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/movies' element={<Movies />}/>
-        <Route path='/movies/:_id' element={<MovieDetails />}/>
+        <Route path='/movies/:_id' element={<MovieDetails user={user} />}/>
         <Route path='/register' element={<Register user={user} setUser={setUser} />}/>
         <Route path='/login' element={<Login user={user} setUser={setUser}/>}/>
         <Route element={<PrivateGuard user={user} />}>

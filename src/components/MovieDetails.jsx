@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-export default function MovieDetails() {
+export default function MovieDetails({user}) {
     const [movie, setMovie] = useState([])
 
     const { _id: movieId } = useParams();
@@ -22,6 +22,9 @@ export default function MovieDetails() {
         return () => {abortController.abort()}
     }, [])
 
+
+    const isAdmin = user && movie && user._id == movie._ownerId;
+
     return(
     <section className="min-h-screen bg-gray-100 py-10 px-4">
       <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
@@ -41,7 +44,7 @@ export default function MovieDetails() {
             </h1>
 
             <p className="text-gray-700 mb-6 leading-relaxed">
-              {movie.description}
+              {movie.description} {isAdmin && <span> - You are the Admin!</span>}
             </p>
 
             <span className="text-sm text-gray-500 mt-auto">
