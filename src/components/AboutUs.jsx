@@ -1,3 +1,5 @@
+import { NavLink } from "react-router";
+
 export default function AboutUs() {
     return(
       <div className="bg-gray-50 min-h-screen">
@@ -100,12 +102,12 @@ export default function AboutUs() {
         <p className="mb-6 text-indigo-100">
           Discover, create and share your favorite movies with the world.
         </p>
-        <button
+        <NavLink to="/register"
           className="bg-white text-indigo-600 px-6 py-3 rounded-md font-semibold
                      hover:bg-indigo-100 transition"
         >
           Get Started
-        </button>
+        </NavLink>
       </section>
     </div>
     );

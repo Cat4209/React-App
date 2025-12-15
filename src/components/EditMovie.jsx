@@ -55,8 +55,12 @@ export default function EditMovie({user}) {
         });
     }
 
+    const isAdmin = user && movie && user._id == movie._ownerId;
+
     return(
-    <div className="max-w-md mx-auto mt-10 mb-10 p-6 bg-white rounded-lg shadow-md">
+        <>
+        {isAdmin ? (
+            <div className="max-w-md mx-auto mt-10 mb-10 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-6 text-center">Edit Movie</h2>
       <form action={movieEdit} className="space-y-5">
         <div>
@@ -112,5 +116,21 @@ export default function EditMovie({user}) {
         </button>
       </form>
     </div>
+        ): (
+            <div className="flex justify-center text-center mb-10 mt-12">
+                <div className="max-w-md w-full bg-yellow-50 border border-yellow-300
+                                text-yellow-800 px-6 py-5 rounded-xl shadow-sm">
+                    <h2 className="text-lg font-semibold mb-2">
+                    Access denied
+                    </h2>
+                    <p className="text-sm">
+                    You are not the creator of this movie and cannot edit or delete it.
+                    </p>
+                </div>
+            </div>
+        )}
+
+        </>
+    
     );
 }
