@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams  } from "react-router";
+import { getMovieById, updateMovie } from "../utils/movieService";
+import MovieForm from "./MovieForm";
 
 export default function EditMovie({user}) {
     const [title, setTitle] = useState("");
@@ -12,125 +14,45 @@ export default function EditMovie({user}) {
     const navigate = useNavigate()
 
     useEffect(()=>{
-            const abortController = new AbortController();
-    
-            fetch('http://localhost:3030/data/movies', {signal: abortController.signal})
-            .then(response => response.json()).then(results => {
-                const result = results.find(
-                    m => m._id === movieId
-                )
-                setMovie(result)
-                setTitle(result.title)
-                setDescription(result.description)
-                setImage(result.img)
-
-            }).catch(err => {
-                console.error(err);
-            })
-
-            
-            return () => {abortController.abort()}
+        getMovieById(movieId).then(data => {
+            setMovie(data);
+            setTitle(data.title);
+            setDescription(data.description);
+            setImage(data.img);
+            });
         }, [])
     
 
-    const movieEdit = (formData) => {
-
-        fetch(`http://localhost:3030/data/movies/${movie._id}`, {
-            method: 'PATCH',
-            headers: {
-                'content-type': 'application/json',
-                'X-Authorization': user.accessToken,
-            },
-            body: JSON.stringify({
-                title: title, 
-                description: description,
-                img: image,
-            })
-        }).then(response => response.json() )
-        .then(res => {
-            navigate(`/movies/${res._id}`)
-        })
-        .catch(err => {
-            alert(err.message);
-        });
+    const movieEdit = async(formData) => {
+        const result = await updateMovie(
+            movieId,
+            { title, description, img: image },
+            user.accessToken
+        );
+        
+    navigate(`/movies/${result._id}`);
     }
 
     const isAdmin = user && movie && user._id == movie._ownerId;
 
+    if (!isAdmin) {
+        return (
+        <p className="text-center text-red-600 mt-10">
+            You are not the creator of this movie!
+        </p>
+        );
+    }
+
     return(
-        <>
-        {isAdmin ? (
-            <div className="max-w-md mx-auto mt-10 mb-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Edit Movie</h2>
-      <form action={movieEdit} className="space-y-5">
-        <div>
-          <label htmlFor="title" className="block mb-2 font-medium text-gray-700">
-            Title
-          </label>
-          <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Enter movie title"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="description" className="block mb-2 font-medium text-gray-700">
-            Description
-          </label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Enter movie description"
-            rows={4}
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="image" className="block mb-2 font-medium text-gray-700">
-            Movie Image
-          </label>
-          <input
-            id="image"
-            value={image}
-            type="url"
-            onChange={(e) => setImage(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-            placeholder="Enter image url"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition"
-        >
-          Edit Movie
-        </button>
-      </form>
-    </div>
-        ): (
-            <div className="flex justify-center text-center mb-10 mt-12">
-                <div className="max-w-md w-full bg-yellow-50 border border-yellow-300
-                                text-yellow-800 px-6 py-5 rounded-xl shadow-sm">
-                    <h2 className="text-lg font-semibold mb-2">
-                    Access denied
-                    </h2>
-                    <p className="text-sm">
-                    You are not the creator of this movie and cannot edit or delete it.
-                    </p>
-                </div>
-            </div>
-        )}
-
-        </>
-    
+        <MovieForm
+            title={title}
+            description={description}
+            image={image}
+            onTitleChange={(e) => setTitle(e.target.value)}
+            onDescriptionChange={(e) => setDescription(e.target.value)}
+            onImageChange={(e) => setImage(e.target.value)}
+            onSubmit={movieEdit}
+            submitText="Edit Movie"
+        />
     );
 }
