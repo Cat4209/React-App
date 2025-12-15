@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3030/data/movies';
+const baseUrl = 'https://us-central1-react-app-2eff5.cloudfunctions.net/server/data/movies';
 
 export const createMovie = (movie, token) => {
   return fetch(baseUrl, {

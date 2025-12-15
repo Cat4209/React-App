@@ -8,7 +8,7 @@ export default function Logout({user, setUser}) {
     }
     
     useEffect(()=>{
-        fetch('http://localhost:3030/users/logout', {
+        fetch('https://us-central1-react-app-2eff5.cloudfunctions.net/server/users/logout', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

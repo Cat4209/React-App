@@ -16,7 +16,7 @@ export default function Register({user, setUser}) {
             return;
         }
 
-        fetch('http://localhost:3030/users/register',{
+        fetch('https://us-central1-react-app-2eff5.cloudfunctions.net/server/users/register',{
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

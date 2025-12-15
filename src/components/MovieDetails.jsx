@@ -14,7 +14,7 @@ export default function MovieDetails({user}) {
     useEffect(()=>{
         const abortController = new AbortController();
 
-        const res = fetch('http://localhost:3030/data/movies', {signal: abortController.signal})
+        const res = fetch('https://us-central1-react-app-2eff5.cloudfunctions.net/server/data/movies', {signal: abortController.signal})
         .then(response => response.json()).then(results => {
             const result = results.find(
                 m => m._id === movieId
@@ -24,7 +24,7 @@ export default function MovieDetails({user}) {
             console.error(err);
         })
 
-        const res2 = fetch('http://localhost:3030/data/comments', {signal: abortController.signal})
+        const res2 = fetch('https://us-central1-react-app-2eff5.cloudfunctions.net/server/data/comments', {signal: abortController.signal})
         .then(response => response.json()).then(result => {
             const resultComments = result.filter(
                 c => c.recipeId === movieId
@@ -37,7 +37,7 @@ export default function MovieDetails({user}) {
 
     const deleteMovie = async () =>{
         if(confirm("Are you sure you want to delete movie?")){
-            await fetch(`http://localhost:3030/data/movies/${movieId}`, {
+            await fetch(`https://us-central1-react-app-2eff5.cloudfunctions.net/server/data/movies/${movieId}`, {
                 method: 'DELETE',
                 headers: {
                     "X-Authorization": user.accessToken,
@@ -53,7 +53,7 @@ export default function MovieDetails({user}) {
     }
 
     const postCommentHandler = () =>{
-        fetch('http://localhost:3030/data/comments', {
+        fetch('https://us-central1-react-app-2eff5.cloudfunctions.net/server/data/comments', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

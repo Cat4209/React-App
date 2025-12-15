@@ -10,7 +10,7 @@ export default function Login({user, setUser}) {
         const userEmail = formData.get("email")
         const userPassword = formData.get("password")
 
-        fetch('http://localhost:3030/users/login',{
+        fetch('https://us-central1-react-app-2eff5.cloudfunctions.net/server/users/login',{
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

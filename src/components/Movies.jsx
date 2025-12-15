@@ -7,7 +7,7 @@ export default function Movies() {
     useEffect(()=>{
         const abortController = new AbortController();
 
-        const res = fetch('http://localhost:3030/data/movies', {signal: abortController.signal})
+        const res = fetch('https://us-central1-react-app-2eff5.cloudfunctions.net/server/data/movies', {signal: abortController.signal})
         .then(response => response.json()).then(result => [
             console.log(result),
             setMovies(Object.values(result))
