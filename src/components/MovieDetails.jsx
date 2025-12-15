@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router";
+import {v4 as uuidv4 } from 'uuid'
 
 export default function MovieDetails({user}) {
     const [movie, setMovie] = useState([])
+    const [text, setText] = useState("");
+    const [comments, setComments] = useState([]);
+
     const navigate = useNavigate()
 
     const { _id: movieId } = useParams();
-    console.log(movieId)
+
     useEffect(()=>{
         const abortController = new AbortController();
 
@@ -18,6 +22,14 @@ export default function MovieDetails({user}) {
             setMovie(result)
         }).catch(err => {
             console.error(err);
+        })
+
+        const res2 = fetch('http://localhost:3030/data/comments', {signal: abortController.signal})
+        .then(response => response.json()).then(result => {
+            const resultComments = result.filter(
+                c => c.recipeId === movieId
+            )
+            setComments(resultComments)
         })
 
         return () => {abortController.abort()}
@@ -38,6 +50,28 @@ export default function MovieDetails({user}) {
                 alert(err.message)
             })
         }
+    }
+
+    const postCommentHandler = () =>{
+        fetch('http://localhost:3030/data/comments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': user.accessToken,
+            },
+            body: JSON.stringify({
+                _ownerId: user._id,
+                content: text,
+                recipeId: movieId,
+                _createdOn: new Date(),
+                _id: uuidv4(),
+            }),
+        }).then(res => res.json())
+        .then(data => {
+            console.log(data)
+        }).catch(err=>{
+            alert(err.message)
+        })
     }
 
 
@@ -92,8 +126,41 @@ export default function MovieDetails({user}) {
             ) }
               
           </div>
-
+          
         </div>
+        {comments ? (
+            <div className="px-4 py-4">
+            <ul className="space-y-4">
+            {comments.map(c => (
+                <li key={c._id} className="border p-4 rounded-md">
+                {/* <p className="font-semibold">{c.authorEmail}</p> */}
+                <p className="text-gray-700">{c.content}</p>
+                </li>
+            ))}
+            </ul>
+        </div>
+        ):(
+            <div><h2>There is no comments!</h2></div>
+        )}
+        
+        {user && (
+            <div className="px-4 py-4">
+            <form action={postCommentHandler} className="mt-6 space-y-3">
+            <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                rows={3}
+                placeholder="Write a comment..."
+                className="w-full border rounded-md px-3 py-2"
+            />
+            <button
+                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+            >
+                Add Comment
+            </button>
+            </form>
+          </div>
+        )}
       </div>
     </section>
     );
